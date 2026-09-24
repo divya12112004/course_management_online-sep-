@@ -12,10 +12,10 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 const app = express();
 
+app.use(cors());
+app.use(express.json());
 // Middleware
-app.use(cors({
-  origin: "http://localhost:5173"
-}));
+app.use(cors());
 
 app.use(express.json());
 

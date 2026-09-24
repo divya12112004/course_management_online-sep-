@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../axiosConfig";
 
 function Register() {
-
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -15,36 +14,28 @@ function Register() {
 
   const [message, setMessage] = useState("");
 
-
   const handleChange = (e) => {
-
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
-
   };
 
-
   const handleSubmit = async (e) => {
-
     e.preventDefault();
 
     setMessage("");
 
-
+    // Check password confirmation
     if (formData.password !== formData.confirmPassword) {
-
       setMessage("Passwords do not match.");
-
       return;
     }
 
-
     try {
-
-      const response = await axios.post(
-        "http://localhost:5000/api/register",
+      // Send registration request to backend
+      const response = await api.post(
+        "/api/register",
         {
           name: formData.name,
           email: formData.email,
@@ -52,9 +43,10 @@ function Register() {
         }
       );
 
-
+      // Show backend success message
       setMessage(response.data.message);
 
+      // Clear form
       setFormData({
         name: "",
         email: "",
@@ -62,28 +54,21 @@ function Register() {
         confirmPassword: ""
       });
 
-
+      // Go to login page after registration
       setTimeout(() => {
         navigate("/login");
       }, 1500);
 
-
     } catch (error) {
+      console.error("Registration error:", error);
 
       if (error.response) {
-
         setMessage(error.response.data.message);
-
       } else {
-
         setMessage("Unable to connect to the server.");
-
       }
-
     }
-
   };
-
 
   return (
     <div className="auth-page">
@@ -100,7 +85,6 @@ function Register() {
           Join CourseHub and start your learning journey.
         </p>
 
-
         <form onSubmit={handleSubmit}>
 
           <label>Full Name</label>
@@ -114,7 +98,6 @@ function Register() {
             required
           />
 
-
           <label>Email Address</label>
 
           <input
@@ -125,7 +108,6 @@ function Register() {
             placeholder="Enter your email"
             required
           />
-
 
           <label>Password</label>
 
@@ -138,7 +120,6 @@ function Register() {
             required
           />
 
-
           <label>Confirm Password</label>
 
           <input
@@ -150,13 +131,11 @@ function Register() {
             required
           />
 
-
           <button type="submit">
             Create Account
           </button>
 
         </form>
-
 
         {message && (
           <p className="auth-message">
@@ -164,10 +143,11 @@ function Register() {
           </p>
         )}
 
-
         <div className="auth-switch">
 
-          <span>Already have an account? </span>
+          <span>
+            Already have an account?{" "}
+          </span>
 
           <Link to="/login">
             Login

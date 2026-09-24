@@ -1,7 +1,7 @@
 import "./App.css";
 import { Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "./axiosConfig";
 
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
@@ -35,9 +35,8 @@ function Home() {
   // Fetch courses
   useEffect(() => {
 
-    axios
-      .get("http://localhost:5000/api/courses")
-
+   api
+  .get("/api/courses")
       .then((response) => {
 
         setCourses(response.data);

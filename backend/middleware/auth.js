@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const JWT_SECRET = "coursehub_secret_key";
-
+const JWT_SECRET = process.env.JWT_SECRET;
 function verifyToken(req, res, next) {
 
   const authHeader = req.headers.authorization;
