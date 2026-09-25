@@ -3,7 +3,7 @@
 
 ### Base URL
 
-http://localhost:5000
+Base URL: https://course-management-online-sep.onrender.com
 
 ---
 
